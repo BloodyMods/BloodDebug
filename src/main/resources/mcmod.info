@@ -1,0 +1,16 @@
+[
+{
+  "modid": "blooddebug",
+  "name": "Blood Debug",
+  "description": "Mod for various debugging.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["BloodWorkXGaming"],
+  "credits": "The Forge and FML guys, for making this example",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
