@@ -4,6 +4,8 @@ import atm.bloodworkxgaming.blooddebug.BloodDebug;
 import atm.bloodworkxgaming.blooddebug.commands.BloodDebugCommand;
 import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityCollector;
 import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityManager;
+import atm.bloodworkxgaming.blooddebug.util.CountedListItem;
+import atm.bloodworkxgaming.blooddebug.util.CountedListItemGeneric;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
@@ -57,15 +59,14 @@ public class CmdItems extends BloodDebugCommand {
 
 
             // Prints list of all Items with given amount
-            List<ItemEntityCollected> itemEntityCollecteds = new ArrayList<>();
-            foundItems.forEach((s, entityItems) -> itemEntityCollecteds.add(new ItemEntityCollected(entityItems.size(), s)));
-
-            itemEntityCollecteds.sort(ItemEntityCollected.ITEM_ENTITY_COLLECTED_COMPARATOR);
+            List<CountedListItemGeneric<String>> itemEntityCollecteds = new ArrayList<>();
+            foundItems.forEach((s, entityItems) -> itemEntityCollecteds.add(new CountedListItemGeneric<>(s, entityItems.size())));
+            itemEntityCollecteds.sort(CountedListItem.COUNTED_LIST_ITEM_COMPARATOR);
 
             BloodDebug.logCommandChat(sender, getNormalMessage("Showing \u00A73" + itemEntityCollecteds.size() + " amount \u00A7rof \u00A76ItemEntities"));
-            for (ItemEntityCollected itemEntityCollected : itemEntityCollecteds) {
-                String sb = "\u00A7a" + itemEntityCollected.count + "x " + ChatFormatting.RESET + itemEntityCollected.name;
-                BloodDebug.logCommandChat(sender, getClickableCommandMessage(sb, "/bd finditems " + itemEntityCollected.name + " " + (dimension == null ? "" : dimension), true));
+            for (CountedListItemGeneric<String> itemEntityCollected : itemEntityCollecteds) {
+                String sb = "\u00A7a" + itemEntityCollected.count + "x " + ChatFormatting.RESET + itemEntityCollected.item;
+                BloodDebug.logCommandChat(sender, getClickableCommandMessage(sb, "/bd finditems " + itemEntityCollected.item + " " + (dimension == null ? "" : dimension), true));
             }
         }
 
@@ -78,17 +79,4 @@ public class CmdItems extends BloodDebugCommand {
                 getNormalMessage(" \u00A73Finds all items in the given dim")
         );
     }
-
-    private static class ItemEntityCollected {
-        static final Comparator<ItemEntityCollected> ITEM_ENTITY_COLLECTED_COMPARATOR = (o1, o2) -> Integer.compare(o2.count, o1.count);
-
-        int count;
-        String name;
-
-        ItemEntityCollected(int count, String name) {
-            this.count = count;
-            this.name = name;
-        }
-    }
-
 }

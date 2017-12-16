@@ -2,12 +2,14 @@ package atm.bloodworkxgaming.blooddebug.commands;
 
 import atm.bloodworkxgaming.blooddebug.BloodDebug;
 import atm.bloodworkxgaming.blooddebug.CustomTeleporter;
-import atm.bloodworkxgaming.blooddebug.commands.commandImpl.CmdItems;
 import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityCollector;
+import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityHelper;
 import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityManager;
 import atm.bloodworkxgaming.blooddebug.commands.collectors.tiles.TileCollector;
 import atm.bloodworkxgaming.blooddebug.commands.collectors.tiles.TileManager;
+import atm.bloodworkxgaming.blooddebug.commands.commandImpl.CmdChunkEntities;
 import atm.bloodworkxgaming.blooddebug.commands.commandImpl.CmdFindItems;
+import atm.bloodworkxgaming.blooddebug.commands.commandImpl.CmdItems;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -218,18 +220,9 @@ public class Commands {
                         BloodDebug.logCommandChat(sender, getNormalMessage("Showing \u00A73" + eCollector.getCount() + " positions \u00A7rof \u00A76" + eCollector.getClassName()));
 
                         for (Entity entity : eCollector.entities) {
-                            StringBuilder sb = new StringBuilder();
-                            sb.append("\u00A7e- ");
-                            BlockPos pos = entity.getPosition();
-                            sb.append("\u00A73[").append(DF.format(entity.posX)).append(", ").append(DF.format(entity.posY)).append(", ").append(DF.format(entity.posZ)).append("]");
-                            sb.append("\u00A7a{").append(entity.dimension).append("}");
-
-                            BloodDebug.logCommandChat(sender, getClickableCommandMessage(sb.toString(), "/tp @p " + pos.getX() + " " + pos.getY() + " " + pos.getZ(), true));
-
+                            BloodDebug.logCommandChat(sender, EntityHelper.getEntityMessage(entity));
                         }
                     }
-
-
                 } else {
                     sender.sendMessage(getNormalMessage("\u00A74You must provide the name of a Entity class"));
                 }
@@ -246,6 +239,7 @@ public class Commands {
         });
 
         BDChatCommand.registerCommand(new BloodDebugCommand("tpx") {
+            @SuppressWarnings("ConstantConditions")
             @Override
             public void executeCommand(MinecraftServer server, ICommandSender sender, String[] args) {
                 Entity entityToTeleport = null;
@@ -285,7 +279,6 @@ public class Commands {
                     }
                 }
 
-
                 if (args.length >= 5 || args.length == 2) {
                     EntityPlayerMP player = server.getPlayerList().getPlayerByUsername(args[0]);
 
@@ -315,8 +308,6 @@ public class Commands {
                 }
 
                 if (entityToTeleport != null && dimension != null) {
-                    int oldID = entityToTeleport.dimension;
-
                     entityToTeleport.posX = x;
                     entityToTeleport.posY = y;
                     entityToTeleport.posZ = z;
@@ -348,5 +339,7 @@ public class Commands {
         BDChatCommand.registerCommand(new CmdItems());
 
         BDChatCommand.registerCommand(new CmdFindItems());
+
+        BDChatCommand.registerCommand(new CmdChunkEntities());
     }
 }
