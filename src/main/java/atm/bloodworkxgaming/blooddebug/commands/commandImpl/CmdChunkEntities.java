@@ -2,6 +2,7 @@ package atm.bloodworkxgaming.blooddebug.commands.commandImpl;
 
 import atm.bloodworkxgaming.blooddebug.BloodDebug;
 import atm.bloodworkxgaming.blooddebug.commands.BloodDebugCommand;
+import atm.bloodworkxgaming.blooddebug.commands.CommandUtils;
 import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityCollector;
 import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityHelper;
 import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityManager;
@@ -33,29 +34,9 @@ public class CmdChunkEntities extends BloodDebugCommand {
     @SuppressWarnings("ConstantConditions")
     @Override
     public void executeCommand(MinecraftServer server, ICommandSender sender, String[] args) {
-        Integer dimension = null;
-        // optional dimension
-        if (args.length >= 1) {
-            try {
-                if (!Objects.equals(args[0], "*")) {
-                    dimension = Integer.valueOf(args[0]);
-                }
-            } catch (NumberFormatException ignored) {}
-        }
-
-        Integer cordX = null;
-        Integer cordZ = null;
-        // optional dimension
-        if (args.length >= 3) {
-            try {
-                cordX = Integer.valueOf(args[1]);
-                cordZ = Integer.valueOf(args[2]);
-            } catch (NumberFormatException ignored) {}
-        }
-
-        System.out.println("Arrays.toString(args) = " + Arrays.toString(args));
-        System.out.println("cordZ = " + cordZ);
-        System.out.println("cordX = " + cordX);
+        Integer dimension = CommandUtils.readOptionalNumber(args, 0);
+        Integer cordX = CommandUtils.readOptionalNumber(args, 1);
+        Integer cordZ = CommandUtils.readOptionalNumber(args, 2);
 
         if (dimension != null) {
             WorldServer world = server.getWorld(dimension);

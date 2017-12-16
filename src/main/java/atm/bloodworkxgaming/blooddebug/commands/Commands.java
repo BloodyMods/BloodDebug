@@ -17,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.text.DecimalFormat;
@@ -58,16 +59,9 @@ public class Commands {
             public void executeCommand(MinecraftServer server, ICommandSender sender, String[] args) {
                 TileManager manager = new TileManager();
 
-                Integer dimension = null;
-                if (args.length >= 1) {
-                    try {
-                        dimension = Integer.valueOf(args[0]);
-                    } finally {
-                        manager.collectTileList(dimension);
-                    }
-                } else {
-                    manager.collectTileList(null);
-                }
+                Integer dimension = CommandUtils.readOptionalNumber(args, 0);
+                manager.collectTileList(dimension);
+
 
                 List<TileCollector> list = manager.getSortedList();
                 for (TileCollector tileCollector : list) {
@@ -159,16 +153,8 @@ public class Commands {
             public void executeCommand(MinecraftServer server, ICommandSender sender, String[] args) {
                 EntityManager manager = new EntityManager();
 
-                Integer dimension = null;
-                if (args.length >= 1) {
-                    try {
-                        dimension = Integer.valueOf(args[0]);
-                    } finally {
-                        manager.collectEntityList(dimension);
-                    }
-                } else {
-                    manager.collectEntityList(null);
-                }
+                Integer dimension = CommandUtils.readOptionalNumber(args, 0);
+                manager.collectEntityList(dimension);
 
                 List<EntityCollector> list = manager.getSortedList();
                 for (EntityCollector tileCollector : list) {
@@ -268,9 +254,17 @@ public class Commands {
                                 y = Integer.valueOf(args[2]);
                                 z = Integer.valueOf(args[3]);
                             } else {
-                                x = 0;
-                                y = 100;
-                                z = 0;
+                                WorldServer world = server.getWorld(dimension);
+                                BlockPos spawn;
+                                if (world != null && (spawn = world.getSpawnPoint()) != null){
+                                    x = spawn.getX();
+                                    y = spawn.getY();
+                                    z = spawn.getZ();
+                                } else {
+                                    x = 0;
+                                    y = 100;
+                                    z = 0;
+                                }
                             }
                         } catch (NumberFormatException e) {
                             sender.sendMessage(getNormalMessage("Wrong number format"));
@@ -335,7 +329,7 @@ public class Commands {
             }
         });
 
-        // bd items [dim: {'*' | int}] [@Optional itemname: String]
+        // bd items [dim: {'*' | int}]
         BDChatCommand.registerCommand(new CmdItems());
 
         BDChatCommand.registerCommand(new CmdFindItems());
