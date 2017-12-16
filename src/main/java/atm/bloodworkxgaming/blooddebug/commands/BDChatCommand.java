@@ -20,7 +20,7 @@ import java.util.*;
 public class BDChatCommand extends CommandBase {
 
     private static final List<String> aliases = new ArrayList<>();
-    private static final Map<String, CraftTweakerCommand> craftTweakerCommands = new TreeMap<>();
+    private static final Map<String, BloodDebugCommand> craftTweakerCommands = new TreeMap<>();
     
     static {
         aliases.add("bd");
@@ -34,7 +34,7 @@ public class BDChatCommand extends CommandBase {
     public static void sendUsage(ICommandSender sender) {
         sender.sendMessage(SpecialMessagesChat.EMPTY_TEXTMESSAGE);
         
-        for(Map.Entry<String, CraftTweakerCommand> entry : craftTweakerCommands.entrySet()) {
+        for(Map.Entry<String, BloodDebugCommand> entry : craftTweakerCommands.entrySet()) {
             for(ITextComponent s : entry.getValue().getDescription()) {
                 sender.sendMessage(s);
             }
@@ -42,7 +42,7 @@ public class BDChatCommand extends CommandBase {
         }
     }
     
-    public static void registerCommand(CraftTweakerCommand command) {
+    public static void registerCommand(BloodDebugCommand command) {
         craftTweakerCommands.put(command.getSubCommandName(), command);
     }
     
@@ -114,7 +114,7 @@ public class BDChatCommand extends CommandBase {
         
         // gives subcommands of the subcommand
         // each has to implement on it's own for special requirements
-        CraftTweakerCommand subCommand = craftTweakerCommands.get(args[0]);
+        BloodDebugCommand subCommand = craftTweakerCommands.get(args[0]);
         if(subCommand != null) {
             System.out.println(Arrays.toString(ArrayUtils.subarray(args, 1, args.length)));
             return subCommand.getSubSubCommand(server, sender, ArrayUtils.subarray(args, 1, args.length), targetPos);

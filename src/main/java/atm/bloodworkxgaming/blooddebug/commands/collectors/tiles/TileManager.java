@@ -1,6 +1,6 @@
-package atm.bloodworkxgaming.blooddebug.entities;
+package atm.bloodworkxgaming.blooddebug.commands.collectors.tiles;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
@@ -8,45 +8,45 @@ import net.minecraftforge.common.DimensionManager;
 import java.io.Serializable;
 import java.util.*;
 
-public class EntityManager {
-    public static final EntityCollectorComparator TILE_COLLECTOR_COMPARATOR = new EntityCollectorComparator();
-    public HashMap<String, EntityCollector> entityHashMap = new HashMap<>();
+public class TileManager {
+    public static final TileCollectorComparator TILE_COLLECTOR_COMPARATOR = new TileCollectorComparator();
+    public HashMap<String, TileCollector> tileEntityHashMap = new HashMap<>();
 
     private int totalCount = 0;
     private int totalCountTicking = 0;
-    private List<EntityCollector> sortedList = null;
+    private List<TileCollector> sortedList = null;
 
     private World[] worlds;
 
-    public EntityManager(){
+    public TileManager(){
         worlds = DimensionManager.getWorlds();
     }
 
     /**
      * Collects the data from the world instance, has to be called to be useable. resets other data before continuing
      */
-    public void collectEntityList(Integer dim){
+    public void collectTileList(Integer dim){
         totalCount = 0;
         totalCountTicking = 0;
-        entityHashMap.clear();
+        tileEntityHashMap.clear();
         sortedList = null;
 
         for (World world : worlds) {
             if (dim == null || world.provider.getDimension() == dim){
-                List<Entity> entityList = world.loadedEntityList;
+                List<TileEntity> tileList = world.loadedTileEntityList;
 
-                for (Entity entityEntity : entityList) {
+                for (TileEntity tileEntity : tileList) {
                     totalCount++;
-                    if (entityEntity instanceof ITickable){
+                    if (tileEntity instanceof ITickable){
                         totalCountTicking++;
                     }
 
-                    String className = entityEntity.getClass().getName();
+                    String className = tileEntity.getClass().getName();
 
-                    if (entityHashMap.containsKey(className)){
-                        entityHashMap.get(className).addTE(entityEntity);
+                    if (tileEntityHashMap.containsKey(className)){
+                        tileEntityHashMap.get(className).addTE(tileEntity);
                     }else {
-                        entityHashMap.put(className, new EntityCollector(entityEntity));
+                        tileEntityHashMap.put(className, new TileCollector(tileEntity));
                     }
                 }
             }
@@ -56,11 +56,11 @@ public class EntityManager {
     /**
      * Gets a sorted list, if it already has one cached it doesn't sort a new one
      */
-    public List<EntityCollector> getSortedList(){
+    public List<TileCollector> getSortedList(){
         if (sortedList == null){
-            List<EntityCollector> values = new ArrayList<>();
+            List<TileCollector> values = new ArrayList<>();
 
-            for (Map.Entry<String, EntityCollector> stringListEntry : entityHashMap.entrySet()) {
+            for (Map.Entry<String, TileCollector> stringListEntry : tileEntityHashMap.entrySet()) {
                 values.add(stringListEntry.getValue());
             }
 
@@ -81,9 +81,9 @@ public class EntityManager {
     }
 
 
-    private static class EntityCollectorComparator implements Comparator<EntityCollector>, Serializable {
+    private static class TileCollectorComparator implements Comparator<TileCollector>, Serializable {
         @Override
-        public int compare(EntityCollector o1, EntityCollector o2) {
+        public int compare(TileCollector o1, TileCollector o2) {
             return Integer.compare(o1.getCount(), o2.getCount());
         }
     }

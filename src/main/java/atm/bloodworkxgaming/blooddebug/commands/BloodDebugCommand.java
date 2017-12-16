@@ -12,14 +12,14 @@ import java.util.List;
 /**
  * @author BloodWorkXGaming
  */
-public abstract class CraftTweakerCommand {
+public abstract class BloodDebugCommand {
     
     private final static ITextComponent[] NO_DESCRIPTION = new ITextComponent[]{SpecialMessagesChat.getNormalMessage("No Description provided")};
     
     protected final String subCommandName;
     private ITextComponent[] description;
     
-    public CraftTweakerCommand(String subCommandName) {
+    public BloodDebugCommand(String subCommandName) {
         this.subCommandName = subCommandName;
         init();
     }

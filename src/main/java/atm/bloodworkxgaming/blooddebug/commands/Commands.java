@@ -3,16 +3,13 @@ package atm.bloodworkxgaming.blooddebug.commands;
 import atm.bloodworkxgaming.blooddebug.BloodDebug;
 import atm.bloodworkxgaming.blooddebug.CustomTeleporter;
 import atm.bloodworkxgaming.blooddebug.commands.commandImpl.CmdItems;
-import atm.bloodworkxgaming.blooddebug.entities.EntityCollector;
-import atm.bloodworkxgaming.blooddebug.entities.EntityManager;
-import atm.bloodworkxgaming.blooddebug.gui.TestFX;
-import atm.bloodworkxgaming.blooddebug.tiles.TileCollector;
-import atm.bloodworkxgaming.blooddebug.tiles.TileManager;
-import com.mojang.realmsclient.gui.ChatFormatting;
-import javafx.stage.Stage;
+import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityCollector;
+import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityManager;
+import atm.bloodworkxgaming.blooddebug.commands.collectors.tiles.TileCollector;
+import atm.bloodworkxgaming.blooddebug.commands.collectors.tiles.TileManager;
+import atm.bloodworkxgaming.blooddebug.commands.commandImpl.CmdFindItems;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
@@ -22,7 +19,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.List;
 
 import static atm.bloodworkxgaming.blooddebug.commands.SpecialMessagesChat.getClickableCommandMessage;
 import static atm.bloodworkxgaming.blooddebug.commands.SpecialMessagesChat.getNormalMessage;
@@ -41,7 +38,7 @@ public class Commands {
 
     static void registerCommands() {
 
-        BDChatCommand.registerCommand(new CraftTweakerCommand("help") {
+        BDChatCommand.registerCommand(new BloodDebugCommand("help") {
             @Override
             public void executeCommand(MinecraftServer server, ICommandSender sender, String[] args) {
                 BDChatCommand.sendUsage(sender);
@@ -49,12 +46,12 @@ public class Commands {
 
             @Override
             protected void init() {
-                setDescription(getClickableCommandMessage("\u00A72/ct help", "/ct help", true), getNormalMessage(" \u00A73Prints out the this help page"));
+                setDescription(getClickableCommandMessage("\u00A72/bd help", "/bd help", true), getNormalMessage(" \u00A73Prints out the this help page"));
             }
         });
 
         // TEs
-        BDChatCommand.registerCommand(new CraftTweakerCommand("allte") {
+        BDChatCommand.registerCommand(new BloodDebugCommand("allte") {
             @Override
             public void executeCommand(MinecraftServer server, ICommandSender sender, String[] args) {
                 TileManager manager = new TileManager();
@@ -99,7 +96,7 @@ public class Commands {
             }
         });
 
-        BDChatCommand.registerCommand(new CraftTweakerCommand("findte") {
+        BDChatCommand.registerCommand(new BloodDebugCommand("findte") {
             @Override
             public void executeCommand(MinecraftServer server, ICommandSender sender, String[] args) {
                 TileManager manager = new TileManager();
@@ -155,7 +152,7 @@ public class Commands {
         });
 
         // Es
-        BDChatCommand.registerCommand(new CraftTweakerCommand("alle") {
+        BDChatCommand.registerCommand(new BloodDebugCommand("alle") {
             @Override
             public void executeCommand(MinecraftServer server, ICommandSender sender, String[] args) {
                 EntityManager manager = new EntityManager();
@@ -193,7 +190,7 @@ public class Commands {
             }
         });
 
-        BDChatCommand.registerCommand(new CraftTweakerCommand("finde") {
+        BDChatCommand.registerCommand(new BloodDebugCommand("finde") {
             @Override
             public void executeCommand(MinecraftServer server, ICommandSender sender, String[] args) {
                 EntityManager manager = new EntityManager();
@@ -248,35 +245,7 @@ public class Commands {
             }
         });
 
-        // bd items [dim: {'*' | int}] [@Optional itemname: String]
-        BDChatCommand.registerCommand(new CmdItems());
-
-        BDChatCommand.registerCommand(new CraftTweakerCommand("window") {
-            @Override
-            public void executeCommand(MinecraftServer server, ICommandSender sender, String[] args) {
-
-                new Thread("JavaFX_mc_thread") {
-                    @Override
-                    public void run() {
-                        TestFX testFX = new TestFX();
-                        Stage stage = new Stage();
-                        testFX.start(stage);
-
-                        // Application.launch(TestFX.class);
-                    }
-                }.start();
-
-            }
-
-            @Override
-            protected void init() {
-                setDescription(
-                        getClickableCommandMessage("\u00A72/bd window", "/bd window", true),
-                        getNormalMessage(" \u00A73Logs all TileEntities"));
-            }
-        });
-
-        BDChatCommand.registerCommand(new CraftTweakerCommand("tpx") {
+        BDChatCommand.registerCommand(new BloodDebugCommand("tpx") {
             @Override
             public void executeCommand(MinecraftServer server, ICommandSender sender, String[] args) {
                 Entity entityToTeleport = null;
@@ -375,5 +344,9 @@ public class Commands {
             }
         });
 
+        // bd items [dim: {'*' | int}] [@Optional itemname: String]
+        BDChatCommand.registerCommand(new CmdItems());
+
+        BDChatCommand.registerCommand(new CmdFindItems());
     }
 }

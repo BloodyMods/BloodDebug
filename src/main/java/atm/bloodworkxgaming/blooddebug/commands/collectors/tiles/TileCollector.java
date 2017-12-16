@@ -1,4 +1,4 @@
-package atm.bloodworkxgaming.blooddebug.tiles;
+package atm.bloodworkxgaming.blooddebug.commands.collectors.tiles;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;

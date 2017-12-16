@@ -1,4 +1,4 @@
-package atm.bloodworkxgaming.blooddebug.entities;
+package atm.bloodworkxgaming.blooddebug.commands.collectors.entities;
 
 
 import net.minecraft.entity.Entity;
