@@ -107,10 +107,10 @@ curseforge{
     }
   project {
   //AdvancedRocketry
-    id = "236542"
-    relations {
+    id = "283672"
+    /*relations {
         requiredLibrary 'libvulpes'
-    }
+    }*/
     changelog = file('changelog.html')
     changelogType = 'html'
     releaseType = "alpha"
