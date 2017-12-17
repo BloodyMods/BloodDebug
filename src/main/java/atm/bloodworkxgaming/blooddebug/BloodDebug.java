@@ -30,7 +30,7 @@ import java.util.Map;
 public class BloodDebug
 {
     public static final String MODID = "blooddebug";
-    public static final String VERSION = "0.1";
+    public static final String VERSION = "@MAJOR@.@MINOR@.@REVIS@.@BUILD@";
 
     public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
     public static List<ILogger> loggers = new ArrayList<>();
