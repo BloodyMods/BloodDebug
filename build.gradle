@@ -31,7 +31,7 @@ apply from: "gradle/scripts/getbuildnumber.gradle"
 minecraft {
     version = "1.12.2-14.23.1.2566"
     runDir = "run"
-        replace "@MAJOR@", version_major
+    replace "@MAJOR@", version_major
     replace "@MINOR@", version_minor
     replace "@REVIS@", version_revis
     replace "@BUILD@", project.getBuildNumber()
@@ -95,11 +95,6 @@ task deobfJar(type: Jar) {
      //if project name is BBM-Dev it makes the deobf jar deobf-dev if not its just deobf
      classifier = "deobf"
      //sets where the jars go to.
-     destinationDir = file 'output'
-     manifest {
-        attributes 'FMLCorePlugin': 'zmaster587.advancedRocketry.asm.AdvancedRocketryPlugin'
-        attributes 'FMLCorePluginContainsFMLMod': 'true'
-    }
      mustRunAfter "jar" 
 }
 
