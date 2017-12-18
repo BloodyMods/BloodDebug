@@ -4,9 +4,9 @@ import atm.bloodworkxgaming.blooddebug.BloodDebug;
 import atm.bloodworkxgaming.blooddebug.commands.BloodDebugCommand;
 import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityCollector;
 import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityManager;
+import atm.bloodworkxgaming.blooddebug.util.ChatColor;
 import atm.bloodworkxgaming.blooddebug.util.CountedListItem;
 import atm.bloodworkxgaming.blooddebug.util.CountedListItemGeneric;
-import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -65,7 +65,7 @@ public class CmdItems extends BloodDebugCommand {
 
             BloodDebug.logCommandChat(sender, getNormalMessage("Showing \u00A73" + itemEntityCollecteds.size() + " amount \u00A7rof \u00A76ItemEntities"));
             for (CountedListItemGeneric<String> itemEntityCollected : itemEntityCollecteds) {
-                String sb = "\u00A7a" + itemEntityCollected.count + "x " + ChatFormatting.RESET + itemEntityCollected.item;
+                String sb = "\u00A7a" + itemEntityCollected.count + "x " + ChatColor.RESET + itemEntityCollected.item;
                 BloodDebug.logCommandChat(sender, getClickableCommandMessage(sb, "/bd finditems " + itemEntityCollected.item + " " + (dimension == null ? "" : dimension), true));
             }
         }

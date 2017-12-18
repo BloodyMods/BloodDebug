@@ -3,25 +3,20 @@ package atm.bloodworkxgaming.blooddebug.commands.commandImpl;
 import atm.bloodworkxgaming.blooddebug.BloodDebug;
 import atm.bloodworkxgaming.blooddebug.commands.BloodDebugCommand;
 import atm.bloodworkxgaming.blooddebug.commands.CommandUtils;
-import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityCollector;
 import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityHelper;
-import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityManager;
+import atm.bloodworkxgaming.blooddebug.util.ChatColor;
 import atm.bloodworkxgaming.blooddebug.util.CountedListItem;
 import atm.bloodworkxgaming.blooddebug.util.CountedListItemGeneric;
-import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ClassInheritanceMultiMap;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.fml.common.event.FMLLoadEvent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static atm.bloodworkxgaming.blooddebug.commands.SpecialMessagesChat.getClickableCommandMessage;
 import static atm.bloodworkxgaming.blooddebug.commands.SpecialMessagesChat.getNormalMessage;
@@ -41,7 +36,7 @@ public class CmdChunkEntities extends BloodDebugCommand {
         if (dimension != null) {
             WorldServer world = server.getWorld(dimension);
             if (world == null) {
-                sender.sendMessage(getNormalMessage(ChatFormatting.RED + "Couldn't load dimension " + dimension));
+                sender.sendMessage(getNormalMessage(ChatColor.RED + "Couldn't load dimension " + dimension));
                 return;
             } else {
                 handleWorld(sender, world, cordX, cordZ);
@@ -69,7 +64,7 @@ public class CmdChunkEntities extends BloodDebugCommand {
         if (cordX != null && cordZ != null){
             Chunk chunk = world.getChunkProvider().getLoadedChunk(cordX, cordZ);
             if (chunk == null){
-                sender.sendMessage(getNormalMessage(ChatFormatting.RED + "Couldn't find chunk  [" + cordX + ", " + cordZ + "] or it isn't loaded."));
+                sender.sendMessage(getNormalMessage(ChatColor.RED + "Couldn't find chunk  [" + cordX + ", " + cordZ + "] or it isn't loaded."));
                 return;
             }
 
@@ -95,11 +90,11 @@ public class CmdChunkEntities extends BloodDebugCommand {
         }
 
         if (combinedList.size() <= 0 && advanced){
-            BloodDebug.logCommandChat(sender, getNormalMessage(ChatFormatting.RED + "No Entities were found in the chunk [" + chunk.x + ", " + chunk.z + "]"));
+            BloodDebug.logCommandChat(sender, getNormalMessage(ChatColor.RED + "No Entities were found in the chunk [" + chunk.x + ", " + chunk.z + "]"));
         }
 
         if (combinedList.size() > 0) {
-            CountedListItemGeneric<ITextComponent> c = new CountedListItemGeneric<>(getClickableCommandMessage("Found " + ChatFormatting.GOLD + combinedList.size() + ChatFormatting.RESET + " Entities in the chunk " + ChatFormatting.GREEN + "[" + chunk.x + ", " + chunk.z + "]"+  ChatFormatting.AQUA + "{" + chunk.getWorld().provider.getDimension() + "}",
+            CountedListItemGeneric<ITextComponent> c = new CountedListItemGeneric<>(getClickableCommandMessage("Found " + ChatColor.GOLD + combinedList.size() + ChatColor.RESET + " Entities in the chunk " + ChatColor.GREEN + "[" + chunk.x + ", " + chunk.z + "]"+  ChatColor.AQUA + "{" + chunk.getWorld().provider.getDimension() + "}",
                     "/bd chunkentities " + chunk.getWorld().provider.getDimension() + " " + chunk.x + " " + chunk.z, true), combinedList.size());
             list.add(c);
 

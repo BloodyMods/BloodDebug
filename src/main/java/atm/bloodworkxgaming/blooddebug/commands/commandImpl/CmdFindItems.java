@@ -4,7 +4,6 @@ import atm.bloodworkxgaming.blooddebug.BloodDebug;
 import atm.bloodworkxgaming.blooddebug.commands.BloodDebugCommand;
 import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityCollector;
 import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityManager;
-import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
