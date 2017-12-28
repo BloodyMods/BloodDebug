@@ -7,9 +7,7 @@ import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityHelper
 import atm.bloodworkxgaming.blooddebug.commands.collectors.entities.EntityManager;
 import atm.bloodworkxgaming.blooddebug.commands.collectors.tiles.TileCollector;
 import atm.bloodworkxgaming.blooddebug.commands.collectors.tiles.TileManager;
-import atm.bloodworkxgaming.blooddebug.commands.commandImpl.CmdChunkEntities;
-import atm.bloodworkxgaming.blooddebug.commands.commandImpl.CmdFindItems;
-import atm.bloodworkxgaming.blooddebug.commands.commandImpl.CmdItems;
+import atm.bloodworkxgaming.blooddebug.commands.commandImpl.*;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -335,5 +333,8 @@ public class Commands {
         BDChatCommand.registerCommand(new CmdFindItems());
 
         BDChatCommand.registerCommand(new CmdChunkEntities());
+
+        BDChatCommand.registerCommand(new CmdGistLog());
+        BDChatCommand.registerCommand(new CmdChatToggle());
     }
 }

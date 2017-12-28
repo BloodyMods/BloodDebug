@@ -1,12 +1,11 @@
 package atm.bloodworkxgaming.blooddebug;
 
 import atm.bloodworkxgaming.blooddebug.commands.BDChatCommand;
-import atm.bloodworkxgaming.blooddebug.commands.ChatHelper;
+import atm.bloodworkxgaming.blooddebug.commands.gist.GithubManager;
 import atm.bloodworkxgaming.blooddebug.logger.ConsoleLogger;
 import atm.bloodworkxgaming.blooddebug.logger.FileLogger;
 import atm.bloodworkxgaming.blooddebug.logger.ILogger;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -16,13 +15,9 @@ import net.minecraftforge.fml.common.network.NetworkCheckHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +30,7 @@ public class BloodDebug
     public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
     public static List<ILogger> loggers = new ArrayList<>();
 
-    public static final File LOG_FILE = new File("logs/blooddebug" + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) + ".log");
+    public static final File LOG_FILE = new File("logs/blooddebug.log");
 
     static {
         loggers.add(new FileLogger("blooddebug.log"));
@@ -77,20 +72,19 @@ public class BloodDebug
     }
 
     public static void logCommandChat(ICommandSender sender, ITextComponent message){
-        sender.sendMessage(message);
+        if (ModConfig.chatOutput) sender.sendMessage(message);
         for (ILogger logger : loggers) {
             logger.logCommand(message.getUnformattedText());
         }
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
+    public void init(FMLInitializationEvent event) {
+        GithubManager.login();
     }
 
     @EventHandler
     public void onServerStarting(FMLServerStartingEvent ev) {
-
         // registering the command
         BDChatCommand.register(ev);
     }
