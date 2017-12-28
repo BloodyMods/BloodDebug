@@ -56,7 +56,7 @@ public class CmdGistLog extends BloodDebugCommand {
             IOUtils.closeQuietly(in);
         }
 
-        currentGist = GithubManager.updateGist(currentGist, "Gist from " + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) + " issued by " + sender.getName(), "blooddebug.log", content.toString());
+        currentGist = GithubManager.updateGist(currentGist, "Gist from " + new SimpleDateFormat("yyyy.MM.dd-HH:mm:ss").format(new Date()) + " issued by " + sender.getName(), "blooddebug.log", content.toString());
 
         if (currentGist != null) {
             String url = currentGist.getHtmlUrl();

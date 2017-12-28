@@ -1,5 +1,7 @@
 package atm.bloodworkxgaming.blooddebug.commands;
 
+import atm.bloodworkxgaming.blooddebug.ModConfig;
+import atm.bloodworkxgaming.blooddebug.util.ChatColor;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -12,7 +14,9 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.annotation.Nullable;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * @author BloodWorkXGaming
@@ -20,7 +24,7 @@ import java.util.*;
 public class BDChatCommand extends CommandBase {
 
     private static final List<String> aliases = new ArrayList<>();
-    private static final Map<String, BloodDebugCommand> craftTweakerCommands = new TreeMap<>();
+    private static final Map<String, BloodDebugCommand> BLOOD_DEBUG_COMMAND_MAP = new TreeMap<>();
 
     static {
         aliases.add("bd");
@@ -34,7 +38,7 @@ public class BDChatCommand extends CommandBase {
     public static void sendUsage(ICommandSender sender) {
         sender.sendMessage(SpecialMessagesChat.EMPTY_TEXTMESSAGE);
 
-        for (Map.Entry<String, BloodDebugCommand> entry : craftTweakerCommands.entrySet()) {
+        for (Map.Entry<String, BloodDebugCommand> entry : BLOOD_DEBUG_COMMAND_MAP.entrySet()) {
             for (ITextComponent s : entry.getValue().getDescription()) {
                 sender.sendMessage(s);
             }
@@ -43,7 +47,7 @@ public class BDChatCommand extends CommandBase {
     }
 
     public static void registerCommand(BloodDebugCommand command) {
-        craftTweakerCommands.put(command.getSubCommandName(), command);
+        BLOOD_DEBUG_COMMAND_MAP.put(command.getSubCommandName(), command);
     }
 
     @Override
@@ -57,8 +61,8 @@ public class BDChatCommand extends CommandBase {
 
         sb.append("/bd ");
 
-        String[] commands = new String[craftTweakerCommands.keySet().size()];
-        craftTweakerCommands.keySet().toArray(commands);
+        String[] commands = new String[BLOOD_DEBUG_COMMAND_MAP.keySet().size()];
+        BLOOD_DEBUG_COMMAND_MAP.keySet().toArray(commands);
 
         for (int i = 0; i < commands.length; i++) {
             sb.append(commands[i]);
@@ -77,12 +81,12 @@ public class BDChatCommand extends CommandBase {
             return;
         }
 
-        if (craftTweakerCommands.containsKey(args[0])) {
-            if (sender.getCommandSenderEntity() instanceof EntityPlayer) {
-                craftTweakerCommands.get(args[0]).executeCommand(server, sender, ArrayUtils.subarray(args, 1, args.length));
-            } else {
-                craftTweakerCommands.get(args[0]).executeCommand(server, sender, ArrayUtils.subarray(args, 1, args.length));
+        if (BLOOD_DEBUG_COMMAND_MAP.containsKey(args[0])) {
+            BLOOD_DEBUG_COMMAND_MAP.get(args[0]).executeCommand(server, sender, ArrayUtils.subarray(args, 1, args.length));
+            if (!ModConfig.chatOutput) {
+                sender.sendMessage(SpecialMessagesChat.getNormalMessage(ChatColor.GREEN + "Command exection of " + Arrays.toString(args) + " has finished!"));
             }
+
         } else {
             sender.sendMessage(SpecialMessagesChat.getClickableCommandMessage("\u00A7cNo such command! \u00A76[Click to show help]", "/bt help", true));
         }
@@ -95,7 +99,7 @@ public class BDChatCommand extends CommandBase {
 
     @Override
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
-        Set<String> keys = craftTweakerCommands.keySet();
+        Set<String> keys = BLOOD_DEBUG_COMMAND_MAP.keySet();
         List<String> currentPossibleCommands = new ArrayList<>();
 
         if (args.length <= 0) {
@@ -114,7 +118,7 @@ public class BDChatCommand extends CommandBase {
 
         // gives subcommands of the subcommand
         // each has to implement on it's own for special requirements
-        BloodDebugCommand subCommand = craftTweakerCommands.get(args[0]);
+        BloodDebugCommand subCommand = BLOOD_DEBUG_COMMAND_MAP.get(args[0]);
         if (subCommand != null) {
             System.out.println(Arrays.toString(ArrayUtils.subarray(args, 1, args.length)));
             return subCommand.getSubSubCommand(server, sender, ArrayUtils.subarray(args, 1, args.length), targetPos);
