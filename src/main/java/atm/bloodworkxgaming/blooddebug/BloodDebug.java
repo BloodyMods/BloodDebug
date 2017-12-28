@@ -28,7 +28,7 @@ public class BloodDebug {
 
     public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
     public static final File LOG_FILE = new File("logs/blooddebug.log");
-    public static List<ILogger> loggers = new ArrayList<>();
+    public static final List<ILogger> loggers = new ArrayList<>();
 
     static {
         loggers.add(new FileLogger("blooddebug.log"));

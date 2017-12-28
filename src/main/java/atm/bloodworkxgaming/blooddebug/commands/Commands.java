@@ -248,9 +248,9 @@ public class Commands {
                             dimension = Integer.valueOf(args[0]);
 
                             if (args.length == 4) {
-                                x = Integer.valueOf(args[1]);
-                                y = Integer.valueOf(args[2]);
-                                z = Integer.valueOf(args[3]);
+                                x = Integer.parseInt(args[1]);
+                                y = Integer.parseInt(args[2]);
+                                z = Integer.parseInt(args[3]);
                             } else {
                                 WorldServer world = server.getWorld(dimension);
                                 BlockPos spawn;
@@ -284,9 +284,9 @@ public class Commands {
                             dimension = Integer.valueOf(args[0]);
 
                             if (args.length >= 5) {
-                                x = Integer.valueOf(args[2]);
-                                y = Integer.valueOf(args[3]);
-                                z = Integer.valueOf(args[4]);
+                                x = Integer.parseInt(args[2]);
+                                y = Integer.parseInt(args[3]);
+                                z = Integer.parseInt(args[4]);
                             } else {
                                 x = 0;
                                 y = 100;

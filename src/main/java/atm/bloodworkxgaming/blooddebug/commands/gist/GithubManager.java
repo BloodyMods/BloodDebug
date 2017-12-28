@@ -14,9 +14,9 @@ public class GithubManager {
     private static GistService gistService = null;
 
     public static void login() {
-        if (!ModConfig.GithubOAuthKey.isEmpty()) {
+        if (!ModConfig.githubOAuthKey.isEmpty()) {
             gistService = new GistService();
-            gistService.getClient().setOAuth2Token(ModConfig.GithubOAuthKey);
+            gistService.getClient().setOAuth2Token(ModConfig.githubOAuthKey);
         } else {
             BloodDebug.warn("No OAuth key provided for Github. Check here how to get one: https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/");
         }
