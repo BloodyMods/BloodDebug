@@ -139,4 +139,4 @@ task makeChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
 """
 }
 
-tasks.build.dependsOn makeChangelog
+tasks.build.dependsOn makeChangelog, shadowJar
