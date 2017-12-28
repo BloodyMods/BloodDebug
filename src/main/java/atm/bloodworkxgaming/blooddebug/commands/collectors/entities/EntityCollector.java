@@ -11,7 +11,7 @@ public class EntityCollector {
     public List<Entity> entities = new ArrayList<>();
     private int count;
 
-    public EntityCollector(Entity entity){
+    public EntityCollector(Entity entity) {
         entityClass = entity.getClass();
         entities.add(entity);
         count = 1;
@@ -21,12 +21,12 @@ public class EntityCollector {
         return count;
     }
 
-    public void addTE(Entity e){
+    public void addTE(Entity e) {
         entities.add(e);
         count = entities.size();
     }
 
-    public String getClassName(){
+    public String getClassName() {
         return entityClass.getName();
     }
 

@@ -18,34 +18,34 @@ public class TileManager {
 
     private World[] worlds;
 
-    public TileManager(){
+    public TileManager() {
         worlds = DimensionManager.getWorlds();
     }
 
     /**
      * Collects the data from the world instance, has to be called to be useable. resets other data before continuing
      */
-    public void collectTileList(Integer dim){
+    public void collectTileList(Integer dim) {
         totalCount = 0;
         totalCountTicking = 0;
         tileEntityHashMap.clear();
         sortedList = null;
 
         for (World world : worlds) {
-            if (dim == null || world.provider.getDimension() == dim){
+            if (dim == null || world.provider.getDimension() == dim) {
                 List<TileEntity> tileList = world.loadedTileEntityList;
 
                 for (TileEntity tileEntity : tileList) {
                     totalCount++;
-                    if (tileEntity instanceof ITickable){
+                    if (tileEntity instanceof ITickable) {
                         totalCountTicking++;
                     }
 
                     String className = tileEntity.getClass().getName();
 
-                    if (tileEntityHashMap.containsKey(className)){
+                    if (tileEntityHashMap.containsKey(className)) {
                         tileEntityHashMap.get(className).addTE(tileEntity);
-                    }else {
+                    } else {
                         tileEntityHashMap.put(className, new TileCollector(tileEntity));
                     }
                 }
@@ -56,8 +56,8 @@ public class TileManager {
     /**
      * Gets a sorted list, if it already has one cached it doesn't sort a new one
      */
-    public List<TileCollector> getSortedList(){
-        if (sortedList == null){
+    public List<TileCollector> getSortedList() {
+        if (sortedList == null) {
             List<TileCollector> values = new ArrayList<>();
 
             for (Map.Entry<String, TileCollector> stringListEntry : tileEntityHashMap.entrySet()) {

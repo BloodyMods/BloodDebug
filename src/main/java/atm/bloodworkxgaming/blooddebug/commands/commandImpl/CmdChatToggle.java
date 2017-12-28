@@ -4,7 +4,6 @@ import atm.bloodworkxgaming.blooddebug.ModConfig;
 import atm.bloodworkxgaming.blooddebug.commands.BloodDebugCommand;
 import atm.bloodworkxgaming.blooddebug.util.ChatColor;
 import com.google.common.collect.ImmutableList;
-import it.unimi.dsi.fastutil.objects.ObjectLists;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
@@ -15,7 +14,7 @@ import java.util.List;
 import static atm.bloodworkxgaming.blooddebug.commands.SpecialMessagesChat.getClickableCommandMessage;
 import static atm.bloodworkxgaming.blooddebug.commands.SpecialMessagesChat.getNormalMessage;
 
-public class CmdChatToggle extends BloodDebugCommand{
+public class CmdChatToggle extends BloodDebugCommand {
 
     public CmdChatToggle() {
         super("chat");
@@ -44,7 +43,7 @@ public class CmdChatToggle extends BloodDebugCommand{
     @Override
     public void executeCommand(MinecraftServer server, ICommandSender sender, String[] args) {
 
-        if (args.length > 0){
+        if (args.length > 0) {
             if (args[0].equals("enable")) {
                 ModConfig.chatOutput = true;
                 sender.sendMessage(getNormalMessage(ChatColor.GREEN + "Enabled chat output."));

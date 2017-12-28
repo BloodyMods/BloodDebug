@@ -16,7 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static atm.bloodworkxgaming.blooddebug.commands.SpecialMessagesChat.*;
-public class CmdGistLog extends BloodDebugCommand{
+
+public class CmdGistLog extends BloodDebugCommand {
     public static Gist currentGist = null;
 
     public CmdGistLog() {

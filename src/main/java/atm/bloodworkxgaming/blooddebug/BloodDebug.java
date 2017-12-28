@@ -22,15 +22,13 @@ import java.util.List;
 import java.util.Map;
 
 @Mod(modid = BloodDebug.MODID, version = BloodDebug.VERSION)
-public class BloodDebug
-{
+public class BloodDebug {
     public static final String MODID = "blooddebug";
     public static final String VERSION = "@MAJOR@.@MINOR@.@REVIS@.@BUILD@";
 
     public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
-    public static List<ILogger> loggers = new ArrayList<>();
-
     public static final File LOG_FILE = new File("logs/blooddebug.log");
+    public static List<ILogger> loggers = new ArrayList<>();
 
     static {
         loggers.add(new FileLogger("blooddebug.log"));
@@ -40,38 +38,38 @@ public class BloodDebug
     /**
      * Error handling
      */
-    public static void info(String s){
+    public static void info(String s) {
         for (ILogger logger : loggers) {
             logger.logInfo(s);
         }
     }
 
-    public static void warn(String s){
+    public static void warn(String s) {
         for (ILogger logger : loggers) {
             logger.logWarning(s);
         }
     }
 
-    public static void error(String s){
+    public static void error(String s) {
         for (ILogger logger : loggers) {
             logger.logError(s);
         }
     }
 
 
-    public static void error(String s, Exception e){
+    public static void error(String s, Exception e) {
         for (ILogger logger : loggers) {
             logger.logError(s, e);
         }
     }
 
-    public static void logCommand(String message){
+    public static void logCommand(String message) {
         for (ILogger logger : loggers) {
             logger.logCommand(message);
         }
     }
 
-    public static void logCommandChat(ICommandSender sender, ITextComponent message){
+    public static void logCommandChat(ICommandSender sender, ITextComponent message) {
         if (ModConfig.chatOutput) sender.sendMessage(message);
         for (ILogger logger : loggers) {
             logger.logCommand(message.getUnformattedText());
@@ -91,7 +89,7 @@ public class BloodDebug
 
 
     @NetworkCheckHandler
-    public boolean matchModVersion(Map<String, String> remoteVersions, Side side){
+    public boolean matchModVersion(Map<String, String> remoteVersions, Side side) {
         return true;
     }
 }

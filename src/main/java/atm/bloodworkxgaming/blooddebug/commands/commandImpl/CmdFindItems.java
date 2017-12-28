@@ -10,7 +10,9 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import static atm.bloodworkxgaming.blooddebug.commands.Commands.DF;
 import static atm.bloodworkxgaming.blooddebug.commands.SpecialMessagesChat.getClickableCommandMessage;
@@ -27,7 +29,7 @@ public class CmdFindItems extends BloodDebugCommand {
         String itemName;
 
         //get item name
-        if (args.length >= 1){
+        if (args.length >= 1) {
             itemName = args[0];
         } else {
             sender.sendMessage(getClickableCommandMessage("\u00A74You must provide a item name, get all items with /bd items",
@@ -39,10 +41,10 @@ public class CmdFindItems extends BloodDebugCommand {
         if (args.length >= 2) {
             Integer dimension = null;
             try {
-                if (!Objects.equals(args[0], "*")){
+                if (!Objects.equals(args[0], "*")) {
                     dimension = Integer.valueOf(args[0]);
                 }
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 sender.sendMessage(getNormalMessage("\u00A74Wrong dimension id format, ignoring"));
             } finally {
                 manager.collectEntityList(dimension);
@@ -63,15 +65,15 @@ public class CmdFindItems extends BloodDebugCommand {
                 EntityItem entityItem = (EntityItem) entity;
                 String name = Objects.toString(entityItem.getItem().getItem().getRegistryName()) + ":" + entityItem.getItem().getMetadata();
 
-                if (name.equals(itemName)){
+                if (name.equals(itemName)) {
                     foundItems.add(entityItem);
                 }
             }
 
-            if (foundItems.size() <= 0){
+            if (foundItems.size() <= 0) {
                 sender.sendMessage(getClickableCommandMessage("\u00A74No item found with name " + itemName + ", get all items with /bd items",
                         "/bd items", true));
-            }else {
+            } else {
                 BloodDebug.logCommandChat(sender, getNormalMessage("Showing \u00A73" + foundItems.size() + " positions \u00A7rof \u00A76" + itemName));
                 for (EntityItem entityItem : foundItems) {
                     StringBuilder sb = new StringBuilder();

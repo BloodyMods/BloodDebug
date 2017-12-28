@@ -28,7 +28,7 @@ public class GithubManager {
 
     public static Gist updateGist(Gist gistToUpdate, String desc, String filename, String content) {
         if (gistToUpdate == null) {
-            return postGist( desc, filename, content);
+            return postGist(desc, filename, content);
         } else {
             return postGist(gistToUpdate, desc, filename, content, true);
         }
@@ -50,7 +50,7 @@ public class GithubManager {
         gist.setPublic(!ModConfig.secretGist);
 
         try {
-            if (update){
+            if (update) {
                 return gistService.updateGist(gist);
             } else {
                 return gistService.createGist(gist);

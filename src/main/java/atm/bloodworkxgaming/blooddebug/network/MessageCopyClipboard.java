@@ -37,16 +37,16 @@ public class MessageCopyClipboard implements IMessage, IMessageHandler<MessageCo
     public void toBytes(ByteBuf buf) {
         ByteBufUtils.writeUTF8String(buf, data);
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public IMessage onMessage(MessageCopyClipboard message, MessageContext ctx) {
         Minecraft.getMinecraft().addScheduledTask(() -> handle(message, ctx));
         return null;
     }
-    
+
     private void handle(MessageCopyClipboard message, MessageContext ctx) {
-        if(Desktop.isDesktopSupported()) {
+        if (Desktop.isDesktopSupported()) {
             StringSelection stringSelection = new StringSelection(message.getData());
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(stringSelection, null);

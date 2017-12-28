@@ -18,34 +18,34 @@ public class EntityManager {
 
     private World[] worlds;
 
-    public EntityManager(){
+    public EntityManager() {
         worlds = DimensionManager.getWorlds();
     }
 
     /**
      * Collects the data from the world instance, has to be called to be useable. resets other data before continuing
      */
-    public void collectEntityList(Integer dim){
+    public void collectEntityList(Integer dim) {
         totalCount = 0;
         totalCountTicking = 0;
         entityHashMap.clear();
         sortedList = null;
 
         for (World world : worlds) {
-            if (dim == null || world.provider.getDimension() == dim){
+            if (dim == null || world.provider.getDimension() == dim) {
                 List<Entity> entityList = world.loadedEntityList;
 
                 for (Entity entityEntity : entityList) {
                     totalCount++;
-                    if (entityEntity instanceof ITickable){
+                    if (entityEntity instanceof ITickable) {
                         totalCountTicking++;
                     }
 
                     String className = entityEntity.getClass().getName();
 
-                    if (entityHashMap.containsKey(className)){
+                    if (entityHashMap.containsKey(className)) {
                         entityHashMap.get(className).addTE(entityEntity);
-                    }else {
+                    } else {
                         entityHashMap.put(className, new EntityCollector(entityEntity));
                     }
                 }
@@ -56,8 +56,8 @@ public class EntityManager {
     /**
      * Gets a sorted list, if it already has one cached it doesn't sort a new one
      */
-    public List<EntityCollector> getSortedList(){
-        if (sortedList == null){
+    public List<EntityCollector> getSortedList() {
+        if (sortedList == null) {
             List<EntityCollector> values = new ArrayList<>();
 
             for (Map.Entry<String, EntityCollector> stringListEntry : entityHashMap.entrySet()) {

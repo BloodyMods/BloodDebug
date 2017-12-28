@@ -12,7 +12,7 @@ public class TileCollector {
     private int count;
     private boolean isTicking;
 
-    public TileCollector(TileEntity tileEntity){
+    public TileCollector(TileEntity tileEntity) {
         tileClass = tileEntity.getClass();
         tiles.add(tileEntity);
         count = 1;
@@ -27,12 +27,12 @@ public class TileCollector {
         return count;
     }
 
-    public void addTE(TileEntity e){
+    public void addTE(TileEntity e) {
         tiles.add(e);
         count = tiles.size();
     }
 
-    public String getClassName(){
+    public String getClassName() {
         return tileClass.getName();
     }
 
@@ -40,7 +40,7 @@ public class TileCollector {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(count).append(" * ").append(getClassName());
-        if (isTicking){
+        if (isTicking) {
             sb.append(" [ticking]");
         }
         return sb.toString();

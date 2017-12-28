@@ -57,13 +57,13 @@ public class CmdChunkEntities extends BloodDebugCommand {
         );
     }
 
-    private void handleWorld(ICommandSender sender, WorldServer world, Integer cordX, Integer cordZ){
+    private void handleWorld(ICommandSender sender, WorldServer world, Integer cordX, Integer cordZ) {
         int dimID = world.provider.getDimension();
         BloodDebug.logCommandChat(sender, getClickableCommandMessage("Checking dimension " + dimID, "/bd tpx " + dimID + "0 100 0", true));
 
-        if (cordX != null && cordZ != null){
+        if (cordX != null && cordZ != null) {
             Chunk chunk = world.getChunkProvider().getLoadedChunk(cordX, cordZ);
-            if (chunk == null){
+            if (chunk == null) {
                 sender.sendMessage(getNormalMessage(ChatColor.RED + "Couldn't find chunk  [" + cordX + ", " + cordZ + "] or it isn't loaded."));
                 return;
             }
@@ -83,22 +83,22 @@ public class CmdChunkEntities extends BloodDebugCommand {
         }
     }
 
-    private void handleChunk(ICommandSender sender, Chunk chunk, boolean advanced, List<CountedListItemGeneric<ITextComponent>> list){
+    private void handleChunk(ICommandSender sender, Chunk chunk, boolean advanced, List<CountedListItemGeneric<ITextComponent>> list) {
         List<Entity> combinedList = new ArrayList<>();
         for (ClassInheritanceMultiMap<Entity> entities : chunk.getEntityLists()) {
             combinedList.addAll(entities);
         }
 
-        if (combinedList.size() <= 0 && advanced){
+        if (combinedList.size() <= 0 && advanced) {
             BloodDebug.logCommandChat(sender, getNormalMessage(ChatColor.RED + "No Entities were found in the chunk [" + chunk.x + ", " + chunk.z + "]"));
         }
 
         if (combinedList.size() > 0) {
-            CountedListItemGeneric<ITextComponent> c = new CountedListItemGeneric<>(getClickableCommandMessage("Found " + ChatColor.GOLD + combinedList.size() + ChatColor.RESET + " Entities in the chunk " + ChatColor.GREEN + "[" + chunk.x + ", " + chunk.z + "]"+  ChatColor.AQUA + "{" + chunk.getWorld().provider.getDimension() + "}",
+            CountedListItemGeneric<ITextComponent> c = new CountedListItemGeneric<>(getClickableCommandMessage("Found " + ChatColor.GOLD + combinedList.size() + ChatColor.RESET + " Entities in the chunk " + ChatColor.GREEN + "[" + chunk.x + ", " + chunk.z + "]" + ChatColor.AQUA + "{" + chunk.getWorld().provider.getDimension() + "}",
                     "/bd chunkentities " + chunk.getWorld().provider.getDimension() + " " + chunk.x + " " + chunk.z, true), combinedList.size());
             list.add(c);
 
-            if (advanced){
+            if (advanced) {
                 BloodDebug.logCommandChat(sender, c.item);
 
                 for (Entity entity : combinedList) {

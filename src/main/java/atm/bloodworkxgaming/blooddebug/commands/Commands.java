@@ -254,7 +254,7 @@ public class Commands {
                             } else {
                                 WorldServer world = server.getWorld(dimension);
                                 BlockPos spawn;
-                                if (world != null && (spawn = world.getSpawnPoint()) != null){
+                                if (world != null && (spawn = world.getSpawnPoint()) != null) {
                                     x = spawn.getX();
                                     y = spawn.getY();
                                     z = spawn.getZ();
