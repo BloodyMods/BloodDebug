@@ -86,12 +86,18 @@ task deobfJar(type: Jar) {
 }
 
 shadowJar {
-  dependencies {
-    include(dependency {
+    classifier = ""
+    
+    dependencies {
+        include(dependency {
            it.moduleGroup == 'org.eclipse.mylyn.github'
-       })
+        })
   }
 }
+
+reobf { shadowJar { mappingType = "SEARGE" } }
+tasks.reobfShadowJar.mustRunAfter shadowJar
+tasks.reobfShadowJar.group = 'shadow'
 
 curseforge{
   if (project.hasProperty("thecursedkey")) {
@@ -110,7 +116,7 @@ curseforge{
     changelogType = 'html'
     releaseType = "alpha"
     addGameVersion minecraft.version
-    mainArtifact(shadowJar) {
+    mainArtifact(reobfShadowJar) {
       displayName = "BloodDebug ${project.version}-UNSTABLE build " + project.getBuildNumber() +  " for " + minecraft.version
     }
     addArtifact (deobfJar){
@@ -139,4 +145,4 @@ task makeChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
 """
 }
 
-tasks.build.dependsOn makeChangelog, shadowJar
+tasks.build.dependsOn makeChangelog, reobfShadowJar
