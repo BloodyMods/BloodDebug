@@ -95,9 +95,9 @@ shadowJar {
   }
 }
 
-reobf { shadowJar { mappingType = "SEARGE" } }
-tasks.reobfShadowJar.mustRunAfter shadowJar
-tasks.reobfShadowJar.group = 'shadow'
+reobf {
+    shadowJar {}
+}
 
 curseforge{
   if (project.hasProperty("thecursedkey")) {
@@ -116,7 +116,7 @@ curseforge{
     changelogType = 'html'
     releaseType = "alpha"
     addGameVersion minecraft.version
-    mainArtifact(reobfShadowJar) {
+    mainArtifact(shadowJar) {
       displayName = "BloodDebug ${project.version}-UNSTABLE build " + project.getBuildNumber() +  " for " + minecraft.version
     }
     addArtifact (deobfJar){
