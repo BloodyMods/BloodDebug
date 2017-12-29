@@ -1,3 +1,5 @@
+import se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask
+
 buildscript {
     repositories {
         jcenter()
@@ -96,7 +98,7 @@ shadowJar {
 }
 
 reobf {
-    shadowJar {}
+    shadowJar { mappingType = "SEARGE" }
 }
 
 curseforge{
@@ -125,7 +127,7 @@ curseforge{
    }
 }
 
-task makeChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+task makeChangelog(type: GitChangelogTask) {
     file = new File ("changelog.html")
     untaggedName = "Current release ${project.version}"
     fromCommit = startGitRev
@@ -145,4 +147,4 @@ task makeChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
 """
 }
 
-tasks.build.dependsOn makeChangelog, reobfShadowJar
+tasks.build.dependsOn makeChangelog, shadowJar
